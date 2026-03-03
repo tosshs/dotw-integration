@@ -1,0 +1,21 @@
+[submodule "dotw-ai"]
+	path = dotw-ai
+	url = https://github.com/tosshs/dotw-ai.git
+[submodule "dotw-platformctl"]
+	path = dotw-platformctl
+	url = https://github.com/tosshs/dotw-platformctl.git
+[submodule "dotw-vagrant"]
+	path = dotw-vagrant
+	url = https://github.com/tosshs/dotw-vagrant.git
+[submodule "dotw-workstation-setup"]
+	path = dotw-workstation-setup
+	url = https://github.com/tosshs/dotw-workstation-setup.git
+[submodule "dotw-kubernetes"]
+	path = dotw-kubernetes
+	url = https://github.com/tosshs/dotw-kubernetes.git
+[submodule "dotw-almalinux10wsl"]
+	path = dotw-almalinux10wsl
+	url = https://github.com/tosshs/dotw-almalinux10wsl.git
+[submodule "dotw-openshift"]
+	path = dotw-openshift
+	url = https://github.com/tosshs/dotw-openshift.git

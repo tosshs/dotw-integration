@@ -120,3 +120,12 @@ git push
 ```bash
 git show --name-only --oneline -1
 ```
+
+## Tag the stack release in dotw-integration
+
+After all bumps:
+
+```bash
+git tag stack-m07-v0.2.0
+git push origin stack-m07-v0.2.0
+```

@@ -43,19 +43,6 @@ Example branch names:
 
 ---
 
-## Releases (module repos)
-
-- Releases are **tags on `main`**
-- Tag format: `vMAJOR.MINOR.PATCH` (example: `v0.1.0`)
-
-Typical flow:
-
-1. Merge work into `main`
-2. When you decide it’s stable → create a tag
-3. Push the tag to origin
-
----
-
 ## Integration updates (dotw-integration)
 
 When a module publishes a new stable tag, `dotw-integration` is updated by:
@@ -70,11 +57,27 @@ When a module publishes a new stable tag, `dotw-integration` is updated by:
 
 ---
 
-## Optional: Stack releases (dotw-integration)
+## Stack releases (dotw-integration)
+
+- Tag format: `vMAJOR.MINOR.PATCH` (example: `v0.1.0`)
+  - PATCH - only bugfix-level updates, no new capabilities, no behavior chang
+  - MINOR - new feature is available, new functionality but keep backwards compatibility
+  - MAJOR - required prerequisites, breaking configs
+
+- Releases are **tags on `main`** in `dotw-integration` ONLY!!
+
+Typical flow:
+
+1. Merge work into `main`
+2. When you decide it’s stable → create a tag
+3. Push the tag to origin
 
 The integration repo may publish stack-level tags like:
 
-- `stack-v0.2.0`
-- `stack-2026.03`
+- `stack-mNN-vX.Y.Z`
+- `stack-m07-v0.2.0`
+
+- `mNN` - module count changes
+- `dotw-integration` only pins submodules to module release tags, never to moving branches like main
 
 These represent a complete pinned ecosystem snapshot.

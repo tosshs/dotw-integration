@@ -1,8 +1,12 @@
 # DevOpsTheWay (DOTW, pronounced “dot-wuh”)
 
+**DOTW** is a modular DevOps platform and learning ecosystem designed to **bootstrap a complete DevOps environment quickly and reproducibly** on new machines, while also providing **structured labs for training, experimentation, and platform engineering practice**.
+
+It combines infrastructure provisioning, configuration management, CI/CD, container platforms, and observability into a cohesive stack that can run locally or in the cloud.
+
 **dotw-integration** is the **integration repository** (Git superproject) for the DOTW ecosystem.
 
-It integrates all `dotw-*` repositories via **git submodules**, pinning each repo to a known-good **release tag** (e.g. `v0.1.0`) so the ecosystem can be cloned and reproduced consistently.
+It integrates all `dotw` repositories via **git submodules**, pinning each repo to a known-good **release tag** (e.g. `v0.1.0`) so the ecosystem can be cloned and reproduced consistently.
 
 ---
 
@@ -22,11 +26,95 @@ Clone with submodules:
 git clone --recurse-submodules https://github.com/tosshs/dotw-integration.git
 ```
 
-# DOTW (DevOpsTheWay)
+---
 
-**DOTW (DevOpsTheWay)** is a modular DevOps platform and learning ecosystem designed to **bootstrap a complete DevOps environment quickly and reproducibly** on new machines, while also providing **structured labs for training, experimentation, and platform engineering practice**.
+<details>
+<summary>Platform Architecture (click to expand)</summary>
+  
+```text
+                               developer
+                                   |
+                                   v
+                           dotw-integration
+                        (project distribution)
+                                   |
+                                   v
+                      dotw-workstation-setup
+                     (bootstrap dev workstation)
+                                   |
+                                   v
+                           dotw-platformctl
+                        (platform control plane)
+                                   |
+    +------------------------------+-----------------------------------+
+    |                              |                                   |
+    v                              v                                   v
+dotw-almalinux10wsl            dotw-vagrant                      dotw-terraform
+(automation host)              (local infra)                     (cloud infra)
+    |                              |                                   |
+    |                              v                                   v
+    |                        local lab nodes                      AWS lab infra
+    |                         (VMs/clusters)                     (VPC/EC2/etc)
+    |                              |
+    +--> dotw-ansible              |
+    |   (configuration mgmt)       |
+    |                              |
+    +-----> Harbor                 |
+    |   (container registry)       |
+    |                              |
+    |       +----------------------+----------------------------------+
+    |       |                      |                                  |
+    |       v                      v                                  v
+    |      OKD              SharedServices VM                  Kubernetes
+    |   (dotw-okd)         (single always-on VM)              (dotw-kubernetes)
+    |       |                      |                                  |
+    |       |                      v                                  |
+    |       |              Prometheus/Grafana/Loki                    |
+    |       |             (central monitoring/logging)                |
+    |       |                      |                                  |
+    |       |                      v                                  |
+    |       |                 TeamCity (CI)                           |
+    |       |             build / test / images                       |
+    |       |                                                         |
+    |       v                                                         v
+    |   ArgoCD (CD)                                              ArgoCD (CD)
+    | GitOps deployment                                         GitOps deployment
+    |       ^                                                         ^
+    |       |                                                         |
+    +-------+-------------------- Helm Charts ------------------------+
+                          (application packaging)
+                                   |
+                                   v
+                          Application Layer
+                     +--------------------------------+
+                     | Java | Python | Platform Apps  |
+                     +--------------------------------+
 
-It combines infrastructure provisioning, configuration management, CI/CD, container platforms, and observability into a cohesive stack that can run locally or in the cloud.
+Per-environment minimum (in each k8s/okd env):
+  - login/SSO (optional: Keycloak / OAuth provider)
+  - basic monitoring (minimal, optional; heavy stack centralized)
+
+Central observability:
+  - Prometheus / Grafana / Loki on SharedServices VM
+
+
+Knowledge / Documentation Layer
+    dotw-ai
+
+
+CI            → TeamCity
+CD            → ArgoCD
+Packaging     → Helm
+Registry      → Harbor (on AlmaLinux10 WSL disk)
+Platform      → Kubernetes / OKD
+Config        → Ansible (on AlmaLinux10 WSL)
+Infra         → Terraform / Vagrant
+Control       → platformctl
+Observability → SharedServices VM (Prom/Graf/Loki)
+Optional      → per-env login + minimal monitoring
+```
+
+</details>
 
 ---
 
@@ -201,86 +289,3 @@ DOTW is both:
 - a learning and experimentation environment  
 
 It enables developers and engineers to **bootstrap, operate, and study a complete DevOps ecosystem** spanning infrastructure, CI/CD, observability, and cloud-native platforms.
-
-```text
-                               developer
-                                   |
-                                   v
-                           dotw-integration
-                        (project distribution)
-                                   |
-                                   v
-                      dotw-workstation-setup
-                     (bootstrap dev workstation)
-                                   |
-                                   v
-                           dotw-platformctl
-                        (platform control plane)
-                                   |
-    +------------------------------+-----------------------------------+
-    |                              |                                   |
-    v                              v                                   v
-dotw-almalinux10wsl            dotw-vagrant                      dotw-terraform
-(automation host)              (local infra)                     (cloud infra)
-    |                              |                                   |
-    |                              v                                   v
-    |                        local lab nodes                      AWS lab infra
-    |                         (VMs/clusters)                     (VPC/EC2/etc)
-    |                              |
-    +--> dotw-ansible              |
-    |   (configuration mgmt)       |
-    |                              |
-    +-----> Harbor                 |
-    |   (container registry)       |
-    |                              |
-    |       +----------------------+----------------------------------+
-    |       |                      |                                  |
-    |       v                      v                                  v
-    |      OKD              SharedServices VM                  Kubernetes
-    |   (dotw-okd)         (single always-on VM)              (dotw-kubernetes)
-    |       |                      |                                  |
-    |       |                      v                                  |
-    |       |              Prometheus/Grafana/Loki                    |
-    |       |             (central monitoring/logging)                |
-    |       |                      |                                  |
-    |       |                      v                                  |
-    |       |                 TeamCity (CI)                           |
-    |       |             build / test / images                       |
-    |       |                                                         |
-    |       v                                                         v
-    |   ArgoCD (CD)                                              ArgoCD (CD)
-    | GitOps deployment                                         GitOps deployment
-    |       ^                                                         ^
-    |       |                                                         |
-    +-------+-------------------- Helm Charts ------------------------+
-                          (application packaging)
-                                   |
-                                   v
-                          Application Layer
-                     +--------------------------------+
-                     | Java | Python | Platform Apps  |
-                     +--------------------------------+
-
-Per-environment minimum (in each k8s/okd env):
-  - login/SSO (optional: Keycloak / OAuth provider)
-  - basic monitoring (minimal, optional; heavy stack centralized)
-
-Central observability:
-  - Prometheus / Grafana / Loki on SharedServices VM
-
-
-Knowledge / Documentation Layer
-    dotw-ai
-
-
-CI            → TeamCity
-CD            → ArgoCD
-Packaging     → Helm
-Registry      → Harbor (on AlmaLinux10 WSL disk)
-Platform      → Kubernetes / OKD
-Config        → Ansible (on AlmaLinux10 WSL)
-Infra         → Terraform / Vagrant
-Control       → platformctl
-Observability → SharedServices VM (Prom/Graf/Loki)
-Optional      → per-env login + minimal monitoring
-```

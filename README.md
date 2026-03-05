@@ -1,5 +1,12 @@
 # DevOpsTheWay (DOTW, pronounced “dot-wuh”)
 
+![GitHub tag](https://img.shields.io/github/v/tag/tmilkotev/dotw-integration)
+![GitHub repo size](https://img.shields.io/github/repo-size/tmilkotev/dotw-integration)
+![GitHub last commit](https://img.shields.io/github/last-commit/tmilkotev/dotw-integration)
+![GitHub issues](https://img.shields.io/github/issues/tmilkotev/dotw-integration)
+![License](https://img.shields.io/github/license/tmilkotev/dotw-integration)
+![Platform](https://img.shields.io/badge/platform-DOTW-blue)
+
 **DOTW** is a modular DevOps platform and learning ecosystem designed to **bootstrap a complete DevOps environment quickly and reproducibly** on new machines, while also providing **structured labs for training, experimentation, and platform engineering practice**.
 
 It combines infrastructure provisioning, configuration management, CI/CD, container platforms, and observability into a cohesive stack that can run locally or in the cloud.
@@ -23,7 +30,7 @@ It integrates all `dotw` repositories via **git submodules**, pinning each repo 
 Clone with submodules:
 
 ```bash
-git clone --recurse-submodules https://github.com/tosshs/dotw-integration.git
+git clone --recurse-submodules https://github.com/tmilkotev/dotw-integration.git
 ```
 
 ---

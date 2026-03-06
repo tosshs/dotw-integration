@@ -102,3 +102,9 @@ DOTW aims to:
 - enable hands-on experimentation with modern tooling
 - unify local labs and cloud environments
 - model real-world platform engineering architectures
+
+---
+
+## 🧭 Platform Stack
+
+🐧 Linux · 🖥️ Vagrant · 🏗 Terraform · ⚙️ Ansible · 🎛 platformctl · ⎈ Kubernetes / OKD · 📦 Helm · 📚 Harbor · 🔵 TeamCity · 🚀 ArgoCD · 📊 Prometheus · 📈 Grafana · 🪵 Loki
